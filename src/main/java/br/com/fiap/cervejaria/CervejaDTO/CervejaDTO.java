@@ -22,6 +22,15 @@ public class CervejaDTO {
         this.dataLancamento = dataLancamento;
     }
 
+    public CervejaDTO(CreateCervejaDTO createCervejaDTO, Integer id) {
+        Id = id;
+        this.marca = createCervejaDTO.getMarca();
+        this.teorAlcoolico = createCervejaDTO.getTeorAlcoolico();
+        this.tipo = createCervejaDTO.getTipo();
+        this.preco = createCervejaDTO.getPreco();
+        this.dataLancamento = createCervejaDTO.getDataLancamento();
+    }
+
     public Integer getId() {
         return Id;
     }
