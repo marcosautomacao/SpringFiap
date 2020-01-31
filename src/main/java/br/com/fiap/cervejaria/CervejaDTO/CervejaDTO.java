@@ -1,5 +1,7 @@
 package br.com.fiap.cervejaria.CervejaDTO;
 
+import br.com.fiap.cervejaria.Entity.Cerveja;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
@@ -29,6 +31,15 @@ public class CervejaDTO {
         this.tipo = createCervejaDTO.getTipo();
         this.preco = createCervejaDTO.getPreco();
         this.dataLancamento = createCervejaDTO.getDataLancamento();
+    }
+
+    public CervejaDTO(Cerveja cerveja) {
+        Id = cerveja.getId();
+        this.marca = cerveja.getMarca();
+        this.teorAlcoolico = cerveja.getTeorAlcoolico();
+        this.tipo = cerveja.getTipo();
+        this.preco = cerveja.getPreco();
+        this.dataLancamento = cerveja.getDataLancamento();
     }
 
     public Integer getId() {

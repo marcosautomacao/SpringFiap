@@ -1,21 +1,53 @@
-package br.com.fiap.cervejaria.CervejaDTO;
+package br.com.fiap.cervejaria.Entity;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Past;
+import br.com.fiap.cervejaria.CervejaDTO.CreateCervejaDTO;
+import br.com.fiap.cervejaria.CervejaDTO.Tipo;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-public class CreateCervejaDTO {
+@Entity
+@Table(name = "TB_CERVEJA")
+public class Cerveja {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column
     private String marca;
+
+    @Column
     private Double teorAlcoolico;
+
+    @Column
+    @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
-    @Min(1)
+    @Column
     private BigDecimal preco;
 
-    @Past
+    @Column
     private ZonedDateTime dataLancamento;
+
+    public Cerveja(){}
+
+    public Cerveja(CreateCervejaDTO createCervejaDTO) {
+        this.marca = createCervejaDTO.getMarca();
+        this.preco = createCervejaDTO.getPreco();
+        this.dataLancamento = createCervejaDTO.getDataLancamento();
+        this.teorAlcoolico = createCervejaDTO.getTeorAlcoolico();
+        this.tipo = createCervejaDTO.getTipo();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getMarca() {
         return marca;
