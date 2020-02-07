@@ -2,11 +2,14 @@ package br.com.fiap.cervejaria.services.impl;
 
 import br.com.fiap.cervejaria.CervejaDTO.CervejaDTO;
 import br.com.fiap.cervejaria.CervejaDTO.CreateCervejaDTO;
+import br.com.fiap.cervejaria.CervejaDTO.PrecoCervejaDto;
 import br.com.fiap.cervejaria.CervejaDTO.Tipo;
 import br.com.fiap.cervejaria.Entity.Cerveja;
 import br.com.fiap.cervejaria.repository.CervejaRepository;
 import br.com.fiap.cervejaria.services.CervejaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -63,6 +66,11 @@ public class CervejaServiceImpl implements CervejaService {
                 .collect(Collectors.toList());
     }
 
+    private Cerveja getCerveja(Integer id) {
+        return cervejaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @Override
     public CervejaDTO findById(Integer id) {
         return null;
@@ -79,11 +87,33 @@ public class CervejaServiceImpl implements CervejaService {
 
     @Override
     public CervejaDTO update(Integer id, CreateCervejaDTO createCervejaDTO) {
-        return null;
+
+        Cerveja cerveja =  getCerveja(id);
+        cerveja.setMarca(createCervejaDTO.getMarca());
+        cerveja.setPreco(createCervejaDTO.getPreco());
+        cerveja.setDataLancamento(createCervejaDTO.getDataLancamento());
+        cerveja.setTipo(createCervejaDTO.getTipo());
+        cerveja.setTeorAlcoolico(createCervejaDTO.getTeorAlcoolico());
+
+        return saveAndGetCervejaDTO(cerveja);
+    }
+
+    private CervejaDTO saveAndGetCervejaDTO(Cerveja cerveja) {
+        Cerveja savedCerveja = cervejaRepository.save(cerveja);
+        return new CervejaDTO(savedCerveja);
+    }
+
+    @Override
+    public CervejaDTO update(Integer id, PrecoCervejaDto precoCervejaDTO) {
+        Cerveja cerveja = getCerveja(id);
+        cerveja.setPreco(precoCervejaDTO.getPreco());
+
+        return saveAndGetCervejaDTO(cerveja);
     }
 
     @Override
     public void delete(Integer id) {
-
+        Cerveja cerveja = getCerveja(id);
+        cervejaRepository.delete(cerveja);
     }
 }

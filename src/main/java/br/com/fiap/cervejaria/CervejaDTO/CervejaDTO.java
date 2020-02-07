@@ -3,6 +3,7 @@ package br.com.fiap.cervejaria.CervejaDTO;
 import br.com.fiap.cervejaria.Entity.Cerveja;
 
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 public class CervejaDTO {
@@ -12,6 +13,8 @@ public class CervejaDTO {
     private Tipo tipo;
     private BigDecimal preco;
     private ZonedDateTime dataLancamento;
+    private ZonedDateTime dataCriacao;
+    private ZonedDateTime dataAtualizacao;
 
     public CervejaDTO(){}
 
@@ -40,7 +43,17 @@ public class CervejaDTO {
         this.tipo = cerveja.getTipo();
         this.preco = cerveja.getPreco();
         this.dataLancamento = cerveja.getDataLancamento();
+        this.dataCriacao = getZonedDateTime(cerveja);
+        this.dataAtualizacao = getZonedDateTime(cerveja);
     }
+
+    private ZonedDateTime getZonedDateTime(Cerveja cerveja) {
+        return ZonedDateTime.ofInstant(
+                cerveja.getDataCriacao().toInstant(),
+                ZoneOffset.systemDefault()
+        );
+    }
+    // shift f6 renomear
 
     public Integer getId() {
         return Id;
@@ -88,5 +101,21 @@ public class CervejaDTO {
 
     public void setDataLancamento(ZonedDateTime dataLancamento) {
         this.dataLancamento = dataLancamento;
+    }
+
+    public ZonedDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(ZonedDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public ZonedDateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(ZonedDateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 }
